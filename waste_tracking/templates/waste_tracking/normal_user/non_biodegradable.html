@@ -1,0 +1,183 @@
+{% extends 'normal_user_generic.html' %}
+{% block content %}
+
+<!-- Non-Biodegradable Wastes Heading -->
+<h1 class="page-title">Non-Biodegradable Wastes</h1>
+
+<!-- Table Container -->
+<div class="table-container">
+  <table class="waste-table">
+    <thead>
+      <tr>
+        <th>Weight (kg)</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Date Collected</th>
+        <th>Yet Collected</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for waste in wastes %}
+      <tr>
+        <td>{{ waste.weight }}</td>
+        <td>{{ waste.category }}</td>
+        <td>{{ waste.description }}</td>
+        <td>{{ waste.date_collected }}</td>
+        <td>{% if waste.is_collected %}Yes{% else %}No{% endif %}</td>
+        <td>
+          <a href="{% url 'wastes:edit_waste' waste.id %}" class="action-btn edit-btn">Edit</a>
+          <a href="{% url 'wastes:delete_waste' waste.id %}" class="action-btn delete-btn">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+{% endblock %}
+
+<!-- Inline CSS -->
+<style>
+  /* General Styles */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Page Title */
+  .page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #333;
+  }
+
+  /* Table Container */
+  .table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Table Styles */
+  .waste-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  /* Header Styles (Thead) */
+  .waste-table thead {
+    background-color: #007ba7;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  .waste-table th {
+    padding: 12px;
+    text-align: left;
+  }
+
+  /* Body Styles (Tbody) */
+  .waste-table tbody {
+    background-color: #ffffff;
+    color: #555;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+
+  .waste-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* Table Row Hover Effect */
+  .waste-table tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  /* Action Buttons in Table */
+  .action-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    width: 80px;  /* Uniform button width */
+  }
+
+  .edit-btn {
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+
+  .edit-btn:hover {
+    background-color: #45a049;
+  }
+
+  .delete-btn {
+    background-color: #f44336;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+
+  .delete-btn:hover {
+    background-color: #e53935;
+  }
+
+  /* Action Links (Add Waste & Logout) */
+  .action-links {
+    margin-top: 20px;
+  }
+
+  .add-btn {
+    background-color: #008CBA;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+    display: inline-block;
+    margin-right: 20px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .add-btn:hover {
+    background-color: #007ba7;
+  }
+
+  .logout-btn {
+    background-color: #555;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .logout-btn:hover {
+    background-color: #333;
+  }
+
+  /* Button Hover Transitions */
+  .action-btn:hover {
+    opacity: 0.8;
+  }
+</style>

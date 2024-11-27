@@ -1,0 +1,49 @@
+{% extends 'collector_generic.html' %}
+{% block content %}
+
+<h1 class="page-title">Non-Collected Wastes</h1>
+
+<div class="table-container">
+  <table class="waste-table">
+    <thead>
+      <tr>
+        <th>Weight (kg)</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Date Collected</th>
+        <th>Collected</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if wastes %}
+        {% for waste in wastes %}
+          {% if not waste.is_collected %}
+          <tr>
+            <td>{{ waste.weight }}</td>
+            <td>{{ waste.category }}</td>
+            <td>{{ waste.description }}</td>
+            <td>{% if waste.date_collected %} {{ waste.date_collected }} {% else %} Not collected {% endif %}</td>
+            <td>No</td>
+            <td>
+              <!-- Mark as collected button -->
+              <form method="post" action="{% url 'wastes:mark_as_collected' waste.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="action-btn edit-btn">Mark as Collected</button>
+              </form>
+            </td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="6" class="no-data">No non-collected wastes found.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+
+
+{% endblock %}

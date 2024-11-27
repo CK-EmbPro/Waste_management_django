@@ -1,0 +1,47 @@
+{% extends 'collector_generic.html' %}
+{% block content %}
+
+<!-- Waste List Heading -->
+<h1 class="page-title">Waste List</h1>
+
+<!-- Table Container -->
+<div class="table-container">
+  <table class="waste-table">
+    <thead>
+      <tr>
+        <th>Weight (kg)</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Date Collected</th>
+        <th>Yet Collected</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for waste in wastes %}
+      <tr>
+        <td>{{ waste.weight }}</td>
+        <td>{{ waste.category }}</td>
+        <td>{{ waste.description }}</td>
+        <td>{{ waste.date_collected }}</td>
+        <td>{% if waste.is_collected %}Yes{%else%}No{% endif %}</td>
+        {%if not waste.is_collected%}
+        <td>
+          <form method="post" action="{% url 'wastes:mark_as_collected' waste.id %}" style="display: block;">
+            {% csrf_token %}
+            <button type="submit" class="action-btn edit-btn">Mark as Collected</button>
+          </form>
+        </td>
+
+        {%else%}
+        <td>Alread collected</td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+{% endblock %}

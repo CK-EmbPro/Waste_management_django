@@ -1,0 +1,86 @@
+{% extends 'collector_generic.html' %}
+{% block content %}
+<div class="dashboard">
+
+    <div class="content">
+        <header>
+            <h1>Welcome, <span id="collector-name">
+                {% if user.is_authenticated %}
+                {{ user.username }}
+                {% endif %}
+            </span>!</h1>
+            <p>Here are your reviews relating waste_collection.</p>
+        </header>
+
+        <!-- Waste Reports Section -->
+        <section class="waste-reports">
+            <h2>Waste Collection Reports</h2>
+            <div class="charts">
+                <div class="chart-container">
+                    <canvas id="collectionChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Waste Collection Dashboard - All Rights Reserved</p>
+        </footer>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// JavaScript to generate the collection chart
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the dynamic data from Django context
+    var collectedData = {{ collected_wastes | safe }};
+    var notCollectedData = {{ non_collected_wastes | safe }};
+    var months = {{ months_list | safe }};  // dynamically passed months
+
+    // Combined Collection Chart
+    var collectionCtx = document.getElementById('collectionChart').getContext('2d');
+    var collectionChart = new Chart(collectionCtx, {
+        type: 'bar',
+        data: {
+            labels: months,  // Dynamically passed months
+            datasets: [
+                {
+                    label: 'Collected Wastes',
+                    data: collectedData,  // Data for collected waste
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Not Collected Wastes',
+                    data: notCollectedData,  // Data for not collected waste
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month (Year)'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total Weight (kg)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
+{% endblock %}

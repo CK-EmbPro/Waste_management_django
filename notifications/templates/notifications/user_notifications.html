@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>
+        Notifications
+    </title>
+  </head>
+
+
+  <body>
+    <h1>
+        Notifications
+    </h1>
+
+    <ul>
+        {% for notification in notifications %}
+        <li>
+            <strong>{{notification.title}}</strong> - {{notification.message}}
+            {% if not notification.is_read %}
+            <em>(unread)</em>
+            {% endif %}
+        </li>
+
+        {% endfor %}
+    </ul>
+  </body>
+</html>

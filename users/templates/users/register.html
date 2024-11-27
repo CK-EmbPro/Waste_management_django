@@ -1,0 +1,230 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #74ebd5, #acb6e5);
+        font-family: 'Arial', sans-serif;
+        color: #333;
+    }
+
+    .register-container {
+        max-width: 450px;
+        margin: 60px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .register-container h1 {
+        font-size: 32px;
+        font-weight: 700;
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    .register-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .field-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .field-container label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .field-container input {
+        width: 95%;
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+    .field-container input:focus {
+        border-color: #74ebd5;
+        box-shadow: 0 0 8px rgba(116, 235, 213, 0.6);
+        outline: none;
+    }
+
+    .register-container button {
+        width: 100%;
+        padding: 14px;
+        background-color: #74ebd5;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .register-container button:hover {
+        background-color: #57c8a6;
+    }
+
+    .register-container p {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 15px;
+        color: #555;
+    }
+
+    .register-container a {
+        color: #74ebd5;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .register-container a:hover {
+        color: #57c8a6;
+        text-decoration: underline;
+    }
+
+    .field-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+    }
+
+    .field-label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #555;
+        transition: color 0.3s ease;
+    }
+
+    .field-label:hover {
+        color: #74ebd5; /* Change label color on hover */
+    }
+
+    .select-wrapper {
+        position: relative;
+    }
+
+    .field-container select {
+        width: 100%;
+        padding: 14px 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        color: #333;
+        background-color: #fff;
+        appearance: none; /* Remove default dropdown arrow */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .field-container select:focus {
+        border-color: #74ebd5;
+        box-shadow: 0 0 8px rgba(116, 235, 213, 0.6);
+        outline: none;
+    }
+
+    .field-container select::-ms-expand {
+        display: none; /* For IE */
+    }
+
+    .field-container select option {
+        font-size: 16px;
+        padding: 8px 10px;
+    }
+
+    .field-container select::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .field-container select::-webkit-scrollbar-thumb {
+        background-color: #74ebd5;
+        border-radius: 8px;
+    }
+
+</style>
+
+<div class="register-container">
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="field-container">
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
+        </div>
+
+        <div class="field-container">
+            <label for="{{ form.first_name.id_for_label }}">First Name</label>
+            {{ form.first_name }}
+        </div>
+
+        <div class="field-container">
+            <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+            {{ form.last_name }}
+        </div>
+
+        <div class="field-container">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+        </div>
+
+        <div class="field-container">
+            <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+            {{ form.phone_number }}
+        </div>
+
+        {% comment %} <div class="field-container">
+            <label for="{{ form.role.id_for_label }}">Role</label>
+            {{ form.role }}
+        </div> {% endcomment %}
+
+        <div class="field-container">
+            <label for="{{ form.role.id_for_label }}" class="field-label">Role</label>
+            <div class="select-wrapper">
+                {{ form.role }}
+            </div>
+        </div>
+        
+        <div class="field-container">
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            {{ form.password1 }}
+        </div>
+
+        <div class="field-container">
+            <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+            {{ form.password2 }}
+        </div>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>
+        Already have an account? 
+        <a href="{% url 'users:user_login' %}">Login here</a>
+    </p>
+</div>
+{% endblock %}

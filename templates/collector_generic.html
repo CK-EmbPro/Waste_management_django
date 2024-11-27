@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waste Tracker Dashboard</title>
+    <style>
+      /* Basic styling for layout */
+      body {
+          display: flex;
+          font-family: Arial, sans-serif;
+          margin: 0;
+          height: 100vh;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+          width: 250px;
+          background-color: #f4f4f4;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start; /* Align to the top instead of space-between */
+      }
+
+      /* Sidebar links */
+      .sidebar a {
+          text-decoration: none;
+          color: #333;
+          padding: 12px 20px; /* Adjust padding for a tighter look */
+          margin-bottom: 10px; /* Reduced bottom margin for closer spacing */
+          background-color: #ddd;
+          border-radius: 8px; /* Match the form's rounded corners */
+          font-size: 16px; /* Adjust font size for better readability */
+          transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      /* Hover Effect */
+      .sidebar a:hover {
+          background-color: #74ebd5; /* Same as form focus color */
+          color: #fff; /* White text on hover */
+      }
+
+      /* Active state */
+      .sidebar a.active {
+          background-color: #57c8a6; /* Slightly darker shade of the hover color */
+          color: #fff; /* White text for active state */
+      }
+
+      /* Main content area */
+      .main-content {
+          flex-grow: 1;
+          padding: 20px;
+          overflow-y: auto;
+      }
+
+      h1 {
+          font-size: 24px;
+          color: #333;
+      }
+
+
+
+      {% comment %} all wastes {% endcomment %}
+
+      .page-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 20px 0;
+        color: #333;
+      }
+
+      /* Table Container */
+      .table-container {
+        max-width: 100%;
+        overflow-x: auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Table Styles */
+      .waste-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      /* Header Styles (Thead) */
+      .waste-table thead {
+        background-color: #007ba7;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+
+      .waste-table th {
+        padding: 12px;
+        text-align: left;
+      }
+
+      /* Body Styles (Tbody) */
+      .waste-table tbody {
+        background-color: #ffffff;
+        color: #555;
+        font-size: 1rem;
+        font-weight: normal;
+      }
+
+      .waste-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      /* Table Row Hover Effect */
+      .waste-table tbody tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      /* Action Buttons in Table */
+      .action-btn {
+        display: inline-block;
+        padding: 8px 12px;
+        margin-right: 10px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        text-align: center;
+        width: auto;  /* Uniform button width */
+      }
+
+      .edit-btn {
+        background-color: #4CAF50;
+        color: white;
+        transition: background-color 0.3s ease;
+      }
+
+      .edit-btn:hover {
+        background-color: #45a049;
+      }
+
+      .delete-btn {
+        background-color: #f44336;
+        color: white;
+        transition: background-color 0.3s ease;
+      }
+
+      .delete-btn:hover {
+        background-color: #e53935;
+      }
+
+      /* Action Links (Add Waste & Logout) */
+      .action-links {
+        margin-top: 20px;
+      }
+
+      .add-btn {
+        background-color: #008CBA;
+        color: white;
+        padding: 12px 20px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 16px;
+        display: inline-block;
+        margin-right: 20px;
+        text-align: center;
+        transition: background-color 0.3s ease;
+      }
+
+      .add-btn:hover {
+        background-color: #007ba7;
+      }
+
+      .logout-btn {
+        background-color: #555;
+        color: white;
+        padding: 12px 20px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 16px;
+        display: inline-block;
+        text-align: center;
+        transition: background-color 0.3s ease;
+      }
+
+      .logout-btn:hover {
+        background-color: #333;
+      }
+
+      /* Button Hover Transitions */
+      .action-btn:hover {
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Waste Management System</h2>
+      <a
+        href="{% url 'wastes:collector_dashboard' %}"
+        class="{% if request.path == '/dashboard/' %}active{% endif %}"
+        >Dashboard</a
+      >
+      <a
+        href="{% url 'wastes:c_waste_list' %}"
+        class="{% if request.path == '/dashboard/' %}active{% endif %}"
+        >All wastes</a
+      >
+      <a
+        href="{% url 'wastes:collected_wastes' %}"
+        class="{% if request.path == '/biodegradable/' %}active{% endif %}"
+        >Collected wastes</a
+      >
+      <a
+        href="{% url 'wastes:not_collected_wastes' %}"
+        class="{% if request.path == '/non_biodegradable/' %}active{% endif %}"
+        >Non_collected Wastes</a
+      >
+
+      <a
+        href="{% url 'users:user_logout' %}"
+        class="{% if request.path == '/logout/' %}active{% endif %}"
+        >Logout</a
+      >
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      {% block content %}
+      <!-- Content will be injected here based on the selected section -->
+      {% endblock %}
+    </div>
+  </body>
+</html>

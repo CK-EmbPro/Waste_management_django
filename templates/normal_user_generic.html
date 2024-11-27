@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waste Tracker Dashboard</title>
+    <style>
+      /* Basic styling for layout */
+      body {
+          display: flex;
+          font-family: Arial, sans-serif;
+          margin: 0;
+          height: 100vh;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+          width: 250px;
+          background-color: #f4f4f4;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start; /* Align to the top instead of space-between */
+      }
+
+      /* Sidebar links */
+      .sidebar a {
+          text-decoration: none;
+          color: #333;
+          padding: 12px 20px; /* Adjust padding for a tighter look */
+          margin-bottom: 10px; /* Reduced bottom margin for closer spacing */
+          background-color: #ddd;
+          border-radius: 8px; /* Match the form's rounded corners */
+          font-size: 16px; /* Adjust font size for better readability */
+          transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      /* Hover Effect */
+      .sidebar a:hover {
+          background-color: #74ebd5; /* Same as form focus color */
+          color: #fff; /* White text on hover */
+      }
+
+      /* Active state */
+      .sidebar a.active {
+          background-color: #57c8a6; /* Slightly darker shade of the hover color */
+          color: #fff; /* White text for active state */
+      }
+
+      /* Main content area */
+      .main-content {
+          flex-grow: 1;
+          padding: 20px;
+          overflow-y: auto;
+      }
+
+      h1 {
+          font-size: 24px;
+          color: #333;
+      }
+
+      {% comment %} all wastes {% endcomment %}
+
+        .page-title {
+          font-size: 2rem;
+          font-weight: bold;
+          margin: 20px 0;
+          color: #333;
+        }
+
+        /* Table Container */
+        .table-container {
+          max-width: 100%;
+          overflow-x: auto;
+          padding: 20px;
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Styles */
+        .waste-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+
+        /* Header Styles (Thead) */
+        .waste-table thead {
+          background-color: #007ba7;
+          color: white;
+          font-size: 1.1rem;
+          font-weight: bold;
+        }
+
+        .waste-table th {
+          padding: 12px;
+          text-align: left;
+        }
+
+        /* Body Styles (Tbody) */
+        .waste-table tbody {
+          background-color: #ffffff;
+          color: #555;
+          font-size: 1rem;
+          font-weight: normal;
+        }
+
+        .waste-table td {
+          padding: 12px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+
+        /* Table Row Hover Effect */
+        .waste-table tbody tr:hover {
+          background-color: #f1f1f1;
+        }
+
+        /* Action Buttons in Table */
+        .action-btn {
+          display: inline-block;
+          padding: 8px 12px;
+          margin-right: 10px;
+          text-decoration: none;
+          border-radius: 4px;
+          font-weight: bold;
+          text-align: center;
+          width: 80px;  /* Uniform button width */
+        }
+
+        .edit-btn {
+          background-color: #4CAF50;
+          color: white;
+          transition: background-color 0.3s ease;
+        }
+
+        .edit-btn:hover {
+          background-color: #45a049;
+        }
+
+        .delete-btn {
+          background-color: #f44336;
+          color: white;
+          transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+          background-color: #e53935;
+        }
+
+        /* Action Links (Add Waste & Logout) */
+        .action-links {
+          margin-top: 20px;
+        }
+
+        .add-btn {
+          background-color: #008CBA;
+          color: white;
+          padding: 12px 20px;
+          text-decoration: none;
+          border-radius: 6px;
+          font-size: 16px;
+          display: inline-block;
+          margin-right: 20px;
+          text-align: center;
+          transition: background-color 0.3s ease;
+        }
+
+        .add-btn:hover {
+          background-color: #007ba7;
+        }
+
+        .logout-btn {
+          background-color: #555;
+          color: white;
+          padding: 12px 20px;
+          text-decoration: none;
+          border-radius: 6px;
+          font-size: 16px;
+          display: inline-block;
+          text-align: center;
+          transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+          background-color: #333;
+        }
+
+        /* Button Hover Transitions */
+        .action-btn:hover {
+          opacity: 0.8;
+        }
+
+
+        {% comment %} edit_add forms {% endcomment %}
+        .form-container {
+            max-width: 600px;
+            margin: 60px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+          }
+        
+          h1 {
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+          }
+        
+          .form-group {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+          }
+        
+          .form-group label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+          }
+        
+          .form-group input,
+          .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            color: #333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          }
+        
+          .form-group input:focus,
+          .form-group select:focus {
+            border-color: #74ebd5;
+            box-shadow: 0 0 8px rgba(116, 235, 213, 0.6);
+            outline: none;
+          }
+        
+          .form-group input,
+          .form-group select,
+          .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            resize: none;
+            color: #333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          }
+        
+          .form-group input:focus,
+          .form-group select:focus,
+          .form-group textarea:focus {
+            border-color: #74ebd5;
+            box-shadow: 0 0 8px rgba(116, 235, 213, 0.6);
+            outline: none;
+          }
+        
+          .form-group p {
+            color: #e74c3c;
+            font-size: 12px;
+          }
+        
+          .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #74ebd5;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          }
+        
+          .submit-btn:hover {
+            background-color: #57c8a6;
+          }
+        
+          .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #3498db;
+            font-size: 14px;
+          }
+        
+          .back-link:hover {
+            text-decoration: underline;
+          }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Waste Management System</h2>
+      <a
+        href="{% url 'wastes:normaluser_dashboard' %}"
+        class="{% if request.path == '/dashboard/' %}active{% endif %}"
+        >Dashboard</a
+      >
+      <a
+        href="{% url 'wastes:u_waste_list' %}"
+        class="{% if request.path == '/dashboard/' %}active{% endif %}"
+        >All wastes</a
+      >
+      <a
+        href="{% url 'wastes:biodegradable_wastes' %}"
+        class="{% if request.path == '/biodegradable/' %}active{% endif %}"
+        >Biodegradable Wastes</a
+      >
+      <a
+        href="{% url 'wastes:non_biodegradable_wastes' %}"
+        class="{% if request.path == '/non_biodegradable/' %}active{% endif %}"
+        >Non-Biodegradable Wastes</a
+      >
+      <a
+        href="{% url 'wastes:add_waste' %}"
+        class="{% if request.path == '/add_waste/' %}active{% endif %}"
+        >Add Waste</a
+      >
+
+      <a
+        href="{% url 'users:user_logout' %}"
+        class="{% if request.path == '/logout/' %}active{% endif %}"
+        >Logout</a
+      >
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      {% block content %}
+      <!-- Content will be injected here based on the selected section -->
+      {% endblock %}
+    </div>
+  </body>
+</html>

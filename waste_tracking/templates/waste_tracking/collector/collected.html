@@ -1,0 +1,38 @@
+{% extends 'collector_generic.html' %}
+{% block content %}
+<h1 class="page-title">Collected Wastes</h1>
+
+<div class="table-container">
+  <table class="waste-table">
+    <thead>
+      <tr>
+        <th>Weight (kg)</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Date Collected</th>
+        <th>Collected</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if wastes %}
+        {% for waste in wastes %}
+          <tr>
+            <td>{{ waste.weight }}</td>
+            <td>{{ waste.category }}</td>
+            <td>{{ waste.description }}</td>
+            <td>{{ waste.date_collected }}</td>
+            <td>Yes</td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="5" class="no-data">No collected wastes found.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base_generic.html' %} {% block content %}
+<h2>All users</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.phone_number }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if not user.is_authenticated %}
+<a href="{% url 'users:user_login' %}">Login</a>  <!-- Link to login -->
+{% endif %}
+
+{% endblock %}

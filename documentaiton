@@ -1,0 +1,13 @@
+Packages
+--pillow: is used for media uploads
+
+General skills acquired
+1. Register all the apps in the settings.py in the main project created
+2. related_name : is used for the reverse accessor to prevent the conflicts 
+
+Edting
+1. Pass there instance to get info of current object and save()
+
+Deleting
+1. Fetch the object
+2. Call delete()

@@ -1,0 +1,91 @@
+{% extends 'normal_user_generic.html' %}
+{% block content %}
+<div class="dashboard">
+
+
+    <!-- Main content -->
+    <div class="content">
+        <header>
+            <h1>Welcome, <span id="collector-name">
+                {% if user.is_authenticated %}
+                {{user.username}}
+                {% endif %}
+            </span>!</h1>
+            <p>Here are your reviews.</p>
+        </header>
+
+        <!-- Waste Reports Section -->
+        <section class="waste-reports">
+            <h2>Waste Reports</h2>
+            <div class="charts">
+                <!-- Combined Waste Chart -->
+                <div class="chart-container">
+                    <canvas id="wasteChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+   
+
+        <footer>
+            <p>Waste management Dashboard - All Rights Reserved</p>
+        </footer>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// JavaScript to generate the chart
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the dynamic data from Django context
+    var biodegradableData = {{ biodegradable_wastes | safe }};
+    var nonBiodegradableData = {{ non_biodegradable_wastes | safe }};
+    var months = {{ months_list | safe }};  // dynamically passed months
+
+    // Combined Waste Chart
+    var wasteCtx = document.getElementById('wasteChart').getContext('2d');
+    var wasteChart = new Chart(wasteCtx, {
+        type: 'bar',
+        data: {
+            labels: months,  // Dynamically passed months
+            datasets: [
+                {
+                    label: 'Biodegradable Wastes',
+                    data: biodegradableData,  // Data for biodegradable waste
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Non-Biodegradable Wastes',
+                    data: nonBiodegradableData,  // Data for non-biodegradable waste
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month (Year)'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total Weight (kg)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
+{% endblock %}
