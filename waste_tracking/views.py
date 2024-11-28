@@ -5,6 +5,7 @@ from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .decorators import role_required
 
 # Create your views here.
 
@@ -27,6 +28,8 @@ def waste_list(request):
 
     return render(request, template, {'wastes': wastes})
 
+
+@login_required(login_url="users:user_login")
 def add_waste(request):
     if request.method == 'POST':
         form= WasteForm(request.POST)
@@ -40,6 +43,7 @@ def add_waste(request):
     return render(request, 'waste_tracking/add_waste.html', {'form': form})
 
 
+@role_required(['normal_user'])
 def edit_waste(request, id):
     waste = get_object_or_404(Waste, id=id )
     if request.method == 'POST':
@@ -54,11 +58,14 @@ def edit_waste(request, id):
     return render(request, "waste_tracking/edit_waste.html", {'form': form})
 
 
+@role_required(['normal_user'])
 def delete_waste(request, id):
     waste = get_object_or_404(Waste, id=id)
     waste.delete()
     return redirect('wastes:u_waste_list')
 
+
+@role_required(['collector'])
 def collector_dashboard(request):
     # Collected wastes grouped by month
     collected_wastes_list = Waste.objects.filter(is_collected=True)\
@@ -104,6 +111,8 @@ def collector_dashboard(request):
     })
     
     
+    
+@role_required(['normal_user'])
 def normaluser_dashboard(request):
     biodegradable_wastes_list = Waste.objects.filter(category='biodegradable')\
         .annotate(month=TruncMonth('date_collected'))\
@@ -149,25 +158,34 @@ def normaluser_dashboard(request):
         'non_biodegradable_wastes': non_biodegradable_weights,
         'months_list': all_months
     })
+    
+    
+@role_required(['normal_user'])
 def biodegradable_wastes(request):
     biodegradable_wastes = Waste.objects.filter(category = 'biodegradable')
     return render(request, "waste_tracking/normal_user/biodegradable.html", {'wastes':biodegradable_wastes })
 
 
+
+@role_required(['normal_user'])
 def non_biodegradable_wastes(request):
     non_biodegradable_wastes_list = Waste.objects.filter(category = 'non_biodegradable')
     return render(request, "waste_tracking/normal_user/non_biodegradable.html", {'wastes':non_biodegradable_wastes_list })
 
 
+@role_required(['collector'])
 def collected_wastes(request):
     collected_wastes_list = Waste.objects.filter(is_collected = True)
     return render(request, "waste_tracking/collector/collected.html", {'wastes': collected_wastes_list})
 
 
+@role_required(['collector'])
 def not_collected_wastes(request):
     not_collected_wastes_list = Waste.objects.filter(is_collected = False)
     return render(request, "waste_tracking/collector/not_collected.html", {'wastes': not_collected_wastes_list})
 
+
+@role_required(['collector'])
 def mark_as_collected(request, waste_id):
     waste = get_object_or_404(Waste, id = waste_id)
     
