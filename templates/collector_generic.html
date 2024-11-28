@@ -201,28 +201,28 @@
       <h2>Waste Management System</h2>
       <a
         href="{% url 'wastes:collector_dashboard' %}"
-        class="{% if request.path == '/dashboard/' %}active{% endif %}"
+        class="{% if request.path == '/waste/c/' %}active{% endif %}"
         >Dashboard</a
       >
       <a
         href="{% url 'wastes:c_waste_list' %}"
-        class="{% if request.path == '/dashboard/' %}active{% endif %}"
+        class="{% if request.path == '/waste/c/all_wastes/' %}active{% endif %}"
         >All wastes</a
       >
       <a
         href="{% url 'wastes:collected_wastes' %}"
-        class="{% if request.path == '/biodegradable/' %}active{% endif %}"
+        class="{% if request.path == '/waste/c/collected/' %}active{% endif %}"
         >Collected wastes</a
       >
       <a
         href="{% url 'wastes:not_collected_wastes' %}"
-        class="{% if request.path == '/non_biodegradable/' %}active{% endif %}"
+        class="{% if request.path == '/waste/c/not_collected/' %}active{% endif %}"
         >Non_collected Wastes</a
       >
 
       <a
         href="{% url 'users:user_logout' %}"
-        class="{% if request.path == '/logout/' %}active{% endif %}"
+        class="{% if request.path == '/users/logout/' %}active{% endif %}"
         >Logout</a
       >
     </div>

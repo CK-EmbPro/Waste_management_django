@@ -303,33 +303,33 @@
       <h2>Waste Management System</h2>
       <a
         href="{% url 'wastes:normaluser_dashboard' %}"
-        class="{% if request.path == '/dashboard/' %}active{% endif %}"
+        class="{% if request.path == '/waste/u/' %}active{% endif %}"
         >Dashboard</a
       >
       <a
         href="{% url 'wastes:u_waste_list' %}"
-        class="{% if request.path == '/dashboard/' %}active{% endif %}"
+        class="{% if request.path == '/waste/u/all_wastes/' %}active{% endif %}"
         >All wastes</a
       >
       <a
         href="{% url 'wastes:biodegradable_wastes' %}"
-        class="{% if request.path == '/biodegradable/' %}active{% endif %}"
+        class="{% if request.path == '/waste/u/biodegradable/' %}active{% endif %}"
         >Biodegradable Wastes</a
       >
       <a
         href="{% url 'wastes:non_biodegradable_wastes' %}"
-        class="{% if request.path == '/non_biodegradable/' %}active{% endif %}"
+        class="{% if request.path == '/waste/u/non_biodegradable/' %}active{% endif %}"
         >Non-Biodegradable Wastes</a
       >
       <a
         href="{% url 'wastes:add_waste' %}"
-        class="{% if request.path == '/add_waste/' %}active{% endif %}"
+        class="{% if request.path == '/waste/add/' %}active{% endif %}"
         >Add Waste</a
       >
 
       <a
         href="{% url 'users:user_logout' %}"
-        class="{% if request.path == '/logout/' %}active{% endif %}"
+        class="{% if request.path == '/users/logout/' %}active{% endif %}"
         >Logout</a
       >
     </div>
