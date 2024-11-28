@@ -32,6 +32,6 @@ Waste Management System in django
    ```bash
    pipenv shell
 
-*Run the server
+* Run the server
    ```bash
    python manage.py runserver
