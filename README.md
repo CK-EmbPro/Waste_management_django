@@ -25,8 +25,7 @@ Waste Management System in django
    ```bash
    cd Waste_management_django
 
-* Set up the db credentials
-   [MongoAtlas IP whitelist](./media/DJANGO_db_conf.png)
+* Set up the db credentials - ![MongoAtlas IP whitelist](./media/DJANGO_db_conf.png)
 
 * Create that database you have defined
 
