@@ -4,8 +4,10 @@ Waste Management System in django
 
 ## Prerequisites
 
-1. **Django** - ```bash
-    pip install django
+2. **pipenv**
+   ```bash
+   pip install pipenv
+
 
 2. **pipenv**
    ```bash
