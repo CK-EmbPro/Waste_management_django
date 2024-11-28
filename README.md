@@ -4,22 +4,20 @@ Waste Management System in django
 
 ## Prerequisites
 
+1. **Django**
+   ```bash
+   pip install django
+
 2. **pipenv**
    ```bash
    pip install pipenv
-
-
-2. **pipenv**
-   ```bash
-   pip install pipenv
-
 
 ## Set up
 
 * Clone the project repository
    ```bash
    git clone https://github.com/CK-EmbPro/Waste_management_django.git
-    
+
 * Move the project directory and open cmd
    ```bash
    cd Waste_management_django
