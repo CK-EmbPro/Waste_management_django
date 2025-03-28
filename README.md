@@ -33,6 +33,6 @@ Waste Management System in django
    ```bash
    pipenv shell
 
-* Run the server
+* Run the serverr
    ```bash
    python manage.py runserver
